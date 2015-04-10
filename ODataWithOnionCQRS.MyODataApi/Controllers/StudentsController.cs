@@ -16,6 +16,9 @@ using ODataWithOnionCQRS.Core.Data;
 using ODataWithOnionCQRS.Core.Command;
 using ODataWithOnionCQRS.Core.Query;
 using ODataWithOnionCQRS.MyODataApi.Helpers;
+using ODataWithOnionCQRS.MyODataApi.ViewModels;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace ODataWithOnionCQRS.MyODataApi.Controllers
 {
@@ -124,6 +127,14 @@ namespace ODataWithOnionCQRS.MyODataApi.Controllers
             // Example of response which uses automapper projections within the Handler
             var enrollmentDto = _mediator.Send(new BestMarkInCourseQuery { StudentId = key });
             return Ok(enrollmentDto);
+        }
+
+        [HttpGet]
+        public IHttpActionResult CourseEnrollments()
+        {
+            // Example of response which uses automapper projections within the Handler
+            var courseList = _mediator.Send(new AutoMapperQuery<Student, StudentCourseListViewModel>());
+            return Ok(courseList);
         }
     }
 }

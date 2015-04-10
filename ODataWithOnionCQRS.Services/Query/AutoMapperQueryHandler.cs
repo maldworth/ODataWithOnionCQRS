@@ -31,9 +31,7 @@ namespace ODataWithOnionCQRS.Services.Query
             {
                 // Gets our context from our context scope
                 var dbCtx = dbContextScope.DbContexts.GetByInterface<ISchoolDbContext>();
-                var testSet = dbCtx.Set<TSrcEntity>().Project().To<TDestModel>().ToList();
-
-                return testSet;
+                return dbCtx.Set<TSrcEntity>().Project().To<TDestModel>().ToList();
             }
         }
     }

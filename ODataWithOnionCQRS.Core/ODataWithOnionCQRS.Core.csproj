@@ -69,7 +69,6 @@
     <Compile Include="Query\BestMarkInCourseQuery.cs" />
     <Compile Include="Query\BestMarkQuery.cs" />
     <Compile Include="Query\GenericQuery.cs" />
-    <Compile Include="Dto\CourseListViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

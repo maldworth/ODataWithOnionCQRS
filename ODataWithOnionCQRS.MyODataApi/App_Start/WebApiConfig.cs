@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
+using ODataWithOnionCQRS.MyODataApi.ViewModels;
 
 namespace ODataWithOnionCQRS.MyODataApi
 {
@@ -47,6 +48,11 @@ namespace ODataWithOnionCQRS.MyODataApi
             modelBuilder.EntityType<Student>()
                 .Function("BestMarkInCourse")
                 .Returns<BestMarkInCourseDto>();
+
+            modelBuilder.EntityType<Student>()
+                .Collection
+                .Function("CourseEnrollments")
+                .ReturnsCollection<StudentCourseListViewModel>();
 
             return modelBuilder.GetEdmModel();
         }

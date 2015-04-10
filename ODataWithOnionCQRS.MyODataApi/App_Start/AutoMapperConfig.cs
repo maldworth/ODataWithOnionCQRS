@@ -1,6 +1,5 @@
 ﻿using ODataWithOnionCQRS.Core.DomainModels;
 using ODataWithOnionCQRS.Core.Dto;
-using ODataWithOnionCQRS.Core.ViewModels;
 using AutoMapper;
 using System.Web.Http;
 
