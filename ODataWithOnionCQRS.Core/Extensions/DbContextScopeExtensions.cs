@@ -1,9 +1,11 @@
 ﻿using ODataWithOnionCQRS.Core.Data;
 using Mehdime.Entity;
 using System;
+using System.ComponentModel;
 
 namespace ODataWithOnionCQRS.Core.Extensions
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class DbContextScopeExtensions
     {
         // These are set from the composition root

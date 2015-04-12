@@ -25,13 +25,19 @@ namespace ODataWithOnionCQRS.Services.Query
             _dbContextScopeFactory = dbContextScopeFactory;
         }
 
-        public IEnumerable<TDestModel> Handle(AutoMapperQuery<TSrcEntity, TDestModel> query)
+        public IEnumerable<TDestModel> Handle(AutoMapperQuery<TSrcEntity, TDestModel> args)
         {
             using (var dbContextScope = _dbContextScopeFactory.CreateReadOnly())
             {
                 // Gets our context from our context scope
                 var dbCtx = dbContextScope.DbContexts.GetByInterface<ISchoolDbContext>();
-                return dbCtx.Set<TSrcEntity>().Project().To<TDestModel>().ToList();
+
+                IQueryable<TSrcEntity> srcEntities = dbCtx.Set<TSrcEntity>();
+
+                srcEntities = srcEntities.Where(args);
+                IQueryable<TDestModel> destEntities = srcEntities.Project().To<TDestModel>();
+                destEntities = destEntities.OrderBy(args);
+                return destEntities.Take(args.PageSize).ToList();
             }
         }
     }

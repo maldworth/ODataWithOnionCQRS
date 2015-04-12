@@ -14,7 +14,7 @@ using System;
 
 namespace ODataWithOnionCQRS.Data
 {
-    public class SchoolDbContext : DbContext, ISchoolDbContext, IDbContextSaveChanges
+    public class SchoolDbContext : DbContext, ISchoolDbContext
     {
         private static readonly object Lock = new object();
         private static bool _databaseInitialized;
@@ -47,16 +47,9 @@ namespace ODataWithOnionCQRS.Data
             modelBuilder.Configurations.Add(new CourseMapping());
         }
 
-
         // ISchoolDbContext implementation
-        public IMyAsyncDbSet<Student> Students { get { return this.Set<Student>(); } }
-        public IMyAsyncDbSet<Course> Courses { get { return this.Set<Course>(); } }
-        public IMyAsyncDbSet<Enrollment> Enrollments { get { return this.Set<Enrollment>(); } }
-
-        // IDbContext implementation
-        public new IMyAsyncDbSet<TEntity> Set<TEntity>() where TEntity : class
-        {
-            return new MyDbSet<TEntity>(base.Set<TEntity>());
-        }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
     }
 }

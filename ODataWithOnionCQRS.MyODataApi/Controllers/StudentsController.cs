@@ -117,8 +117,13 @@ namespace ODataWithOnionCQRS.MyODataApi.Controllers
         public IHttpActionResult BestMark([FromODataUri] int key)
         {
             // Actual Response from mediator
-            var enrollment = _mediator.Send(new BestMarkQuery{ StudentId = key });
-            return Ok(enrollment);
+            //var enrollment = _mediator.Send(new BestMarkQuery{ StudentId = key });
+            var enrollment = _mediator.Send(
+                new GenericQuery<Enrollment>(
+                    1,
+                    orderBy: x=>x.OrderBy(y=>y.Grade),
+                    predicate: x => x.StudentId == key && x.Grade != null));
+            return Ok(enrollment.SingleOrDefault());
         }
 
         [HttpGet]
@@ -133,7 +138,7 @@ namespace ODataWithOnionCQRS.MyODataApi.Controllers
         public IHttpActionResult CourseEnrollments()
         {
             // Example of response which uses automapper projections within the Handler
-            var courseList = _mediator.Send(new AutoMapperQuery<Student, StudentCourseListViewModel>());
+            var courseList = _mediator.Send(new AutoMapperQuery<Student, StudentCourseListViewModel>(5));
             return Ok(courseList);
         }
     }

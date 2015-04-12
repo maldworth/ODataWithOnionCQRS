@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -22,8 +23,8 @@ namespace ODataWithOnionCQRS.MyODataApi.Helpers
 
             patch.Patch(currentModel);
 
-            // We know that we want to explicitly save changes, so we cast to this interface
-            await ((IDbContextSaveChanges)dbCtx).SaveChangesAsync();
+            // We know that we want to explicitly save changes, so we cast here
+            await ((DbContext)dbCtx).SaveChangesAsync();
 
             return currentModel;
         }
@@ -33,8 +34,8 @@ namespace ODataWithOnionCQRS.MyODataApi.Helpers
         {
             dbCtx.Set<TEntity>().Add(entity);
 
-            // We know that we want to explicitly save changes, so we cast to this interface
-            await ((IDbContextSaveChanges)dbCtx).SaveChangesAsync();
+            // We know that we want to explicitly save changes, so we cast here
+            await ((DbContext)dbCtx).SaveChangesAsync();
         }
 
         public static async Task DeleteEntity<TEntity>(ISchoolDbContext dbCtx, object key)
@@ -48,8 +49,8 @@ namespace ODataWithOnionCQRS.MyODataApi.Helpers
 
             dbCtx.Set<TEntity>().Remove(currentModelToDelete);
 
-            // We know that we want to explicitly save changes, so we cast to this interface
-            await ((IDbContextSaveChanges)dbCtx).SaveChangesAsync();
+            // We know that we want to explicitly save changes, so we cast here
+            await ((DbContext)dbCtx).SaveChangesAsync();
         }
     }
 }

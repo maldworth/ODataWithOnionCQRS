@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using ODataWithOnionCQRS.Core.DomainModels;
+using System.Data.Entity;
 
 namespace ODataWithOnionCQRS.Services.Query
 {
@@ -28,8 +29,7 @@ namespace ODataWithOnionCQRS.Services.Query
             {
                 var dbCtx = dbContextScope.DbContexts.GetByInterface<ISchoolDbContext>();
 
-                // Because we are returning the Queried proxy object, it's safer if we set this to false.
-                //dbCtx.DbCtx.Configuration.ProxyCreationEnabled = false;
+                ((DbContext)dbCtx).Configuration.ProxyCreationEnabled = false;
 
                 var enrollment = dbCtx.Enrollments.Where(x => x.StudentId == query.StudentId && x.Grade != null).OrderBy(x => x.Grade).FirstOrDefault();
                 if(enrollment == null)

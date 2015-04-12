@@ -33,14 +33,19 @@ namespace ODataWithOnionCQRS.Bootstrapper
                 .AsClosedTypesOf(typeof(RequestHandler<>))
                 .AsImplementedInterfaces();
 
-            // Special registration of our generic Automapper Handler
+            // Special registration of our Automapper Handler
             builder.RegisterGeneric(typeof(AutoMapperQuery<,>)).AsSelf();
             builder.RegisterGeneric(typeof(AutoMapperQueryHandler<,>))
                 .As(typeof(IRequestHandler<,>));
 
-            // Special Registration of our generic Query Handler
+            // Special Registration of our Generic Query Handler
             builder.RegisterGeneric(typeof(GenericQuery<>)).AsSelf();
             builder.RegisterGeneric(typeof(GenericQueryHandler<>))
+                .As(typeof(IRequestHandler<,>));
+
+            // Special Registration of our Pagination Query Handler
+            builder.RegisterGeneric(typeof(PaginateQuery<>)).AsSelf();
+            builder.RegisterGeneric(typeof(PaginateQueryHandler<>))
                 .As(typeof(IRequestHandler<,>));
 
             // Sets the delegate resolver factories for Mediatr.

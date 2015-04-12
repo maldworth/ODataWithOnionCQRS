@@ -36,10 +36,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="MediatR, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MediatR.2.0.0-beta-001\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\MediatR.dll</HintPath>
@@ -54,10 +50,10 @@
   <ItemGroup>
     <Compile Include="Command\DropAllCoursesCommand.cs" />
     <Compile Include="Data\IDbContext.cs" />
-    <Compile Include="Data\IDbContextSaveChanges.cs" />
-    <Compile Include="Data\IMyAsyncDbSet.cs" />
     <Compile Include="Data\ISchoolDbContext.cs" />
-    <Compile Include="Data\OrderBy.cs" />
+    <Compile Include="Data\PaginatedList.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
+    <Compile Include="Query\PaginateQuery.cs" />
     <Compile Include="DomainModels\Course.cs" />
     <Compile Include="DomainModels\Enrollment.cs" />
     <Compile Include="DomainModels\Student.cs" />
@@ -69,6 +65,13 @@
     <Compile Include="Query\BestMarkInCourseQuery.cs" />
     <Compile Include="Query\BestMarkQuery.cs" />
     <Compile Include="Query\GenericQuery.cs" />
+    <Compile Include="Services\Base\BaseGenericQueryHandler.cs" />
+    <Compile Include="Services\Base\BasePaginateQueryHandler.cs" />
+    <Compile Include="Services\IFilterQuery.cs" />
+    <Compile Include="Services\IIncludeQuery.cs" />
+    <Compile Include="Services\IOrderByQuery.cs" />
+    <Compile Include="Services\IPaginateQuery.cs" />
+    <Compile Include="Services\ITakeQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

@@ -65,6 +65,7 @@
     <Compile Include="Query\AutoMapperQueryHandler.cs" />
     <Compile Include="Query\BestMarkInCourseQueryHandler.cs" />
     <Compile Include="Query\BestMarkQueryHandler.cs" />
+    <Compile Include="Query\PaginateQueryHandler.cs" />
     <Compile Include="Query\GenericQueryHandler.cs" />
   </ItemGroup>
   <ItemGroup>

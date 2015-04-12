@@ -12,6 +12,9 @@ using AutoMapper.QueryableExtensions;
 
 namespace ODataWithOnionCQRS.Services.Query
 {
+    /// <summary>
+    /// This is an example of showing a projection onto a Dto. The same thing could have been achieved using AutoMapperQuery from a Model provided in our UI Layer.
+    /// </summary>
     public class BestMarkInCourseQueryHandler : IRequestHandler<BestMarkInCourseQuery, BestMarkInCourseDto>
     {
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
@@ -30,7 +33,7 @@ namespace ODataWithOnionCQRS.Services.Query
             {
                 var dbCtx = dbContextScope.DbContexts.GetByInterface<ISchoolDbContext>();
 
-                var enrollmentDto = dbCtx.Enrollments.Project().To <BestMarkInCourseDto>().Where(x => x.StudentId == query.StudentId && x.Grade != null).OrderBy(x => x.Grade).FirstOrDefault();
+                var enrollmentDto = dbCtx.Enrollments.Project().To<BestMarkInCourseDto>().Where(x => x.StudentId == query.StudentId && x.Grade != null).OrderBy(x => x.Grade).FirstOrDefault();
                 if (enrollmentDto == null)
                 {
                     throw new InvalidOperationException("No enrollments found for this student");
