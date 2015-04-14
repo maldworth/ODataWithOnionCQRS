@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using ODataWithOnionCQRS.Core.Command;
 using ODataWithOnionCQRS.Core.DomainModels;
 using ODataWithOnionCQRS.Core.Dto;
 using ODataWithOnionCQRS.Core.Query;
+using ODataWithOnionCQRS.MyODataApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,9 +45,29 @@ namespace ODataWithOnionCQRS.MyODataApi.Controllers.api
             return bestMark.FirstOrDefault();
         }
 
-        //public void Post([FromBody]string value)
-        //{
-        //}
+        // This method is also an example of a webapi which doesn't want to expose the domain model. So students are created with a specific view model,
+        // and so we need to perform fluent validation on that view model. It may seem redundant to validate this model, then our service validates the command as well (which is the same in this case).
+        // But depending on your implementation, your service might allow more configurations, or it could be an "CreateOrUpdate" service, and so you would want to do some preliminary validation
+        // here before calling the service. So really I'm just trying to show all potential ways to use these features. Your project architecture, complexity and code conventions might
+        // favor one more than the other.
+        public dynamic Post([FromBody]CreateStudentViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var command = new CreateStudentCommand
+            {
+                FirstMidName = model.FirstMidName,
+                LastName = model.LastName,
+                EnrollmentDate = model.EnrollmentDate
+            };
+
+            var student = _mediator.Send(command);
+
+            return student.Id;
+        }
 
         //public void Put(int id, [FromBody]string value)
         //{

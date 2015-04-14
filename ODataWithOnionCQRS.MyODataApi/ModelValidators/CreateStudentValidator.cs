@@ -1,14 +1,15 @@
 ﻿using ODataWithOnionCQRS.Core.DomainModels;
 using FluentValidation;
+using ODataWithOnionCQRS.MyODataApi.ViewModels;
 
 namespace ODataWithOnionCQRS.MyODataApi.ModelValidators
 {
     /// <summary>
-    /// Validate against our Domain Model.
+    /// We can also validate against our ViewModels
     /// </summary>
-    public class StudentValidator : AbstractValidator<Student>
+    public class CreateStudentValidator : AbstractValidator<CreateStudentViewModel>
     {
-        public StudentValidator()
+        public CreateStudentValidator()
         {
             RuleFor(x => x.FirstMidName).Length(0, 10);
         }

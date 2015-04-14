@@ -5,6 +5,8 @@ using Autofac.Features.Variance;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using ODataWithOnionCQRS.Bootstrapper.Extensions;
+using ODataWithOnionCQRS.Services;
 
 namespace ODataWithOnionCQRS.Bootstrapper
 {
@@ -25,28 +27,34 @@ namespace ODataWithOnionCQRS.Bootstrapper
 
             // Request/Response for Query
             builder.RegisterAssemblyTypes(_assembliesToScan)
-                .AsClosedTypesOf(typeof(IRequestHandler<,>))
-                .AsImplementedInterfaces();
+                .AsClosedTypesOf(typeof(IRequestHandler<,>), "service-handlers")
+                .SingleInstance();
 
             // Request/void Response for Commands
             builder.RegisterAssemblyTypes(_assembliesToScan)
                 .AsClosedTypesOf(typeof(RequestHandler<>))
-                .AsImplementedInterfaces();
+                .SingleInstance();
+
+            // Decorate them with our Validator
+            builder.RegisterGenericDecorator(typeof(ValidatorHandler<,>), typeof(IRequestHandler<,>), fromKey: "service-handlers");
 
             // Special registration of our Automapper Handler
             builder.RegisterGeneric(typeof(AutoMapperQuery<,>)).AsSelf();
             builder.RegisterGeneric(typeof(AutoMapperQueryHandler<,>))
-                .As(typeof(IRequestHandler<,>));
+                .As(typeof(IRequestHandler<,>))
+                .SingleInstance();
 
             // Special Registration of our Generic Query Handler
             builder.RegisterGeneric(typeof(GenericQuery<>)).AsSelf();
             builder.RegisterGeneric(typeof(GenericQueryHandler<>))
-                .As(typeof(IRequestHandler<,>));
+                .As(typeof(IRequestHandler<,>))
+                .SingleInstance();
 
             // Special Registration of our Pagination Query Handler
             builder.RegisterGeneric(typeof(PaginateQuery<>)).AsSelf();
             builder.RegisterGeneric(typeof(PaginateQueryHandler<>))
-                .As(typeof(IRequestHandler<,>));
+                .As(typeof(IRequestHandler<,>))
+                .SingleInstance();
 
             // Sets the delegate resolver factories for Mediatr.
             // These factories are used by Mediatr to find the appropriate Handlers

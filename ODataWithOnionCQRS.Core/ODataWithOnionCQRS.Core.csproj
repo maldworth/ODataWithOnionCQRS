@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\CreateStudentCommand.cs" />
     <Compile Include="Command\DropAllCoursesCommand.cs" />
     <Compile Include="Data\IDbContext.cs" />
     <Compile Include="Data\ISchoolDbContext.cs" />
