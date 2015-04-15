@@ -72,6 +72,7 @@
     <Compile Include="Services\IIncludeQuery.cs" />
     <Compile Include="Services\IOrderByQuery.cs" />
     <Compile Include="Services\IPaginateQuery.cs" />
+    <Compile Include="Services\IPreRequestHandler.cs" />
     <Compile Include="Services\ITakeQuery.cs" />
   </ItemGroup>
   <ItemGroup>

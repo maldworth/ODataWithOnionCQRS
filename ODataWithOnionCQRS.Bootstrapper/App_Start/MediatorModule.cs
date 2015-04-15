@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using ODataWithOnionCQRS.Bootstrapper.Extensions;
 using ODataWithOnionCQRS.Services;
+using ODataWithOnionCQRS.Core.Services;
 
 namespace ODataWithOnionCQRS.Bootstrapper
 {
@@ -35,25 +36,33 @@ namespace ODataWithOnionCQRS.Bootstrapper
                 .AsClosedTypesOf(typeof(RequestHandler<>))
                 .SingleInstance();
 
-            // Decorate them with our Validator
-            builder.RegisterGenericDecorator(typeof(ValidatorHandler<,>), typeof(IRequestHandler<,>), fromKey: "service-handlers");
+            // Register our PreRequestHandler
+            builder.RegisterAssemblyTypes(_assembliesToScan)
+                .AsClosedTypesOf(typeof(IPreRequestHandler<>))
+                .SingleInstance();
+
+            // Decorate All Services with our Pipeline
+            builder.RegisterGenericDecorator(typeof(MediatorPipeline<,>), typeof(IRequestHandler<,>), fromKey: "service-handlers", toKey: "pipeline-handlers");
+
+            // Decorate All Pipelines with our Validator
+            builder.RegisterGenericDecorator(typeof(ValidatorHandler<,>), typeof(IRequestHandler<,>), fromKey: "pipeline-handlers");    // The outermost decorator should not have a toKey
 
             // Special registration of our Automapper Handler
             builder.RegisterGeneric(typeof(AutoMapperQuery<,>)).AsSelf();
             builder.RegisterGeneric(typeof(AutoMapperQueryHandler<,>))
-                .As(typeof(IRequestHandler<,>))
+                .Named("service-handlers", typeof(IRequestHandler<,>)) // Because these are missed in the scan above, we have to manually name them for decoration
                 .SingleInstance();
 
             // Special Registration of our Generic Query Handler
             builder.RegisterGeneric(typeof(GenericQuery<>)).AsSelf();
             builder.RegisterGeneric(typeof(GenericQueryHandler<>))
-                .As(typeof(IRequestHandler<,>))
+                .Named("service-handlers", typeof(IRequestHandler<,>)) // Because these are missed in the scan above, we have to manually name them for decoration
                 .SingleInstance();
 
             // Special Registration of our Pagination Query Handler
             builder.RegisterGeneric(typeof(PaginateQuery<>)).AsSelf();
             builder.RegisterGeneric(typeof(PaginateQueryHandler<>))
-                .As(typeof(IRequestHandler<,>))
+                .Named("service-handlers", typeof(IRequestHandler<,>)) // Because these are missed in the scan above, we have to manually name them for decoration
                 .SingleInstance();
 
             // Sets the delegate resolver factories for Mediatr.

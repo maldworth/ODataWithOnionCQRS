@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using AutoMapper.QueryableExtensions;
 using ODataWithOnionCQRS.Core.Command;
 
-namespace ODataWithOnionCQRS.Services.Query
+namespace ODataWithOnionCQRS.Services.Command
 {
     public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, Student>
     {

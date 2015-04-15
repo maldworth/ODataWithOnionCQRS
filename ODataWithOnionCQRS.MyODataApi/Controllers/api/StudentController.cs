@@ -48,14 +48,14 @@ namespace ODataWithOnionCQRS.MyODataApi.Controllers.api
         // This method is also an example of a webapi which doesn't want to expose the domain model. So students are created with a specific view model,
         // and so we need to perform fluent validation on that view model. It may seem redundant to validate this model, then our service validates the command as well (which is the same in this case).
         // But depending on your implementation, your service might allow more configurations, or it could be an "CreateOrUpdate" service, and so you would want to do some preliminary validation
-        // here before calling the service. So really I'm just trying to show all potential ways to use these features. Your project architecture, complexity and code conventions might
-        // favor one more than the other.
+        // here before calling the service. So really I'm just trying to show all potential ways to use these features. Your project architecture, complexity and code style/conventions might
+        // favor one more than the other, but the building blocks are here.
         public dynamic Post([FromBody]CreateStudentViewModel model)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if(!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             var command = new CreateStudentCommand
             {

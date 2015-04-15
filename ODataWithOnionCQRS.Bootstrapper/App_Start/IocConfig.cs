@@ -32,6 +32,7 @@ namespace ODataWithOnionCQRS.Bootstrapper
 
             builder.RegisterApiControllers(typeof(WebApiApplication).Assembly);
 
+            // This is used by odata endpoint, not the webapi endpoint
             builder.RegisterType<SchoolDbContext>().As<ISchoolDbContext>().InstancePerRequest();
             
             builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>().SingleInstance();
@@ -42,7 +43,7 @@ namespace ODataWithOnionCQRS.Bootstrapper
             builder.RegisterModule(new MediatorModule(Assembly.Load("ODataWithOnionCQRS.Services")));
 
             // Registers our Fluent Validations that we use on our Models
-            builder.RegisterModule(new FluentValidationModule(Assembly.Load("ODataWithOnionCQRS.MyODataApi")));
+            builder.RegisterModule(new FluentValidationModule(Assembly.Load("ODataWithOnionCQRS.MyODataApi"), Assembly.Load("ODataWithOnionCQRS.Services")));
 
             // Registers our AutoMapper Profiles
             builder.RegisterModule(new AutoMapperModule(Assembly.Load("ODataWithOnionCQRS.MyODataApi"), Assembly.Load("ODataWithOnionCQRS.Services")));
